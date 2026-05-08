@@ -1,0 +1,105 @@
+:host {
+  --primary: #00bcd4;
+  --dark-blue: #007acc;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Barra de Navegacion */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background: white;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo {
+  color: var(--dark-blue);
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.btn-registro {
+  background: var(--dark-blue);
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Hero Section */
+.hero {
+  height: 90vh;
+  background-image: url('https://www.dentistainfantiltoledo.com/wp-content/uploads/2019/02/2407151848182221.jpg');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  color: white;
+}
+
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.4);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: 10%;
+}
+
+.hero-content {
+  max-width: 600px;
+  text-align: left;
+}
+
+.badge {
+  background: white;
+  color: var(--dark-blue);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.hero h1 {
+  font-size: 4rem;
+  margin: 20px 0;
+}
+
+.btn-principal {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.welcome-text {
+  color: #333;
+  font-size: 1rem;
+}
+
+.btn-logout {
+  background: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
