@@ -13,7 +13,6 @@ import Swal from 'sweetalert2';
   styleUrls: ['./registro.css']
 })
 export class RegistroComponent {
-  // Volvemos a usar estrictamente username y password
   usuario = { username: '', password: '' };
   esLogin = true;
 
@@ -27,7 +26,6 @@ export class RegistroComponent {
     if (this.esLogin) {
       this.apiService.loginUsuario(this.usuario).subscribe({
         next: (res) => {
-          // Guardamos el username directamente
           localStorage.setItem('usuarioLogeado', res.username); 
           
           if (res.rol) {
