@@ -9,7 +9,6 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Navbar superior */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -76,7 +75,6 @@ p {
   margin-bottom: 25px;
 }
 
-/* Botones principales y de acción */
 .btn-principal {
   background: var(--primary);
   color: white;
