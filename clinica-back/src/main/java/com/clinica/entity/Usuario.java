@@ -1,20 +1,29 @@
 package com.clinica.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
-@Data
+// CAMBIO CLAVE: Usamos Getter y Setter por separado
+@Getter
+@Setter
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nombre;
-    private String email;
+
+    @Column(unique = true, nullable = false)
+    private String username;
+
     private String password;
 
+    private String rol;
+
     @OneToMany(mappedBy = "usuario")
+    @JsonIgnore // Evita que el servidor envíe información cíclica
     private List<Cita> citas;
 }

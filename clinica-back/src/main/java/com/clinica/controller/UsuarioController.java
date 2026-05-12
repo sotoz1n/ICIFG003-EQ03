@@ -18,17 +18,20 @@ public class UsuarioController {
 
     @PostMapping("/registro")
     public Usuario registrar(@RequestBody Usuario usuario) {
+        if (usuario.getRol() == null || usuario.getRol().isEmpty()) {
+            usuario.setRol("USER");
+        }
         return usuarioRepository.save(usuario);
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
-        Optional<Usuario> userBD = usuarioRepository.findByEmail(usuario.getEmail());
+        Optional<Usuario> userBD = usuarioRepository.findByUsername(usuario.getUsername());
 
         if (userBD.isPresent() && userBD.get().getPassword().equals(usuario.getPassword())) {
             return ResponseEntity.ok(userBD.get());
         }
 
-        return ResponseEntity.status(401).body("Credenciales incorrectas");
+        return ResponseEntity.status(401).body("{\"message\": \"Credenciales incorrectas\"}");
     }
 }
