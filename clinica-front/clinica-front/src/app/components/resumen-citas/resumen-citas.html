@@ -10,12 +10,12 @@
   <div *ngIf="fechas.length > 0; else noCitas">
     <div *ngFor="let fecha of fechas" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid #007bff;">
       <h3 style="color: #007bff; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 0;">
-        📅 Agenda para el día: {{ fecha | date:'fullDate':'':'es' }}
+         Agenda para el día: {{ fecha | date:'fullDate':'':'es' }}
       </h3>
 
       <div *ngFor="let tratamiento of getTratamientosPorFecha(fecha)" style="margin-top: 20px;">
         <h4 style="background: #e9ecef; padding: 8px 15px; border-radius: 5px; color: #495057; display: inline-block;">
-          🩺 {{ tratamiento }} ({{ citasAgrupadas[fecha][tratamiento].length }} citas)
+           {{ tratamiento }} ({{ citasAgrupadas[fecha][tratamiento].length }} citas)
         </h4>
 
         <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
