@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // 1. Importamos ChangeDetectorRef
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; 
 import { CommonModule } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { ApiService } from '../../services/api';
@@ -18,9 +18,8 @@ export class ResumenCitasComponent implements OnInit {
   constructor(
     private apiService: ApiService,
     private router: Router,
-    private cdr: ChangeDetectorRef // 2. Inyectamos ChangeDetectorRef
+    private cdr: ChangeDetectorRef 
   ) {
-    // 3. Escuchamos cambios de ruta para re-validar el acceso admin
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe(() => {
@@ -32,7 +31,6 @@ export class ResumenCitasComponent implements OnInit {
     this.validarAccesoYAccion();
   }
 
-  // Separamos la lógica de validación para poder llamarla en cualquier momento
   validarAccesoYAccion(): void {
     const rol = localStorage.getItem('rol');
     this.esAdmin = (rol === 'ADMIN' || rol === 'admin');
@@ -43,7 +41,7 @@ export class ResumenCitasComponent implements OnInit {
     }
 
     this.cargarYAgruparCitas();
-    this.cdr.detectChanges(); // Forzamos actualización inicial
+    this.cdr.detectChanges(); 
   }
 
   cargarYAgruparCitas(): void {
@@ -59,7 +57,6 @@ export class ResumenCitasComponent implements OnInit {
           this.fechas = Object.keys(this.citasAgrupadas).sort();
         }
 
-        // 4. EL MARTILLO: Obligamos a Angular a dibujar las tablas con los datos nuevos
         this.cdr.detectChanges(); 
       },
       error: (err) => {
