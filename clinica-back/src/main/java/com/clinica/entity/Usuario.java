@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
-// CAMBIO CLAVE: Usamos Getter y Setter por separado
 @Getter
 @Setter
 public class Usuario {
@@ -24,6 +23,6 @@ public class Usuario {
     private String rol;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonIgnore // Evita que el servidor envíe información cíclica
+    @JsonIgnore 
     private List<Cita> citas;
 }
