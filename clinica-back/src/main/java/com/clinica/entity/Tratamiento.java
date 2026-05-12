@@ -19,6 +19,5 @@ public class Tratamiento {
     
     private Integer precio;
     
-    // Duración en minutos, útil para el futuro si quieres calcular ocupación de agenda
     private Integer duracionMinutos; 
 }
