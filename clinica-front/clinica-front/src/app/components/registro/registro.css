@@ -1,14 +1,12 @@
-/* Contenedor principal que ocupa toda la pantalla */
 .form-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 80vh; /* Para que no choque con la navbar */
+  min-height: 80vh;
   background-color: #f4f7f6;
   padding: 20px;
 }
 
-/* La tarjeta blanca centrada */
 .form-box {
   background: white;
   padding: 40px;
@@ -24,7 +22,6 @@
   font-weight: bold;
 }
 
-/* Estilos de los inputs y etiquetas */
 .form label {
   display: block;
   margin-bottom: 8px;
@@ -42,7 +39,6 @@
   font-size: 1rem;
 }
 
-/* Botón principal */
 .btn {
   background-color: #007acc;
   color: white;
@@ -60,7 +56,6 @@
   background-color: #00bcd4;
 }
 
-/* Apartado para cambiar entre login y registro */
 .switch-form {
   margin-top: 25px;
   text-align: center;
