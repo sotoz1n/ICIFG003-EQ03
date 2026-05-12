@@ -9,7 +9,6 @@ import java.time.LocalTime;
 
 @Entity
 @Table(name = "citas")
-// CAMBIO CLAVE: Usamos Getter y Setter por separado
 @Getter
 @Setter
 public class Cita {
