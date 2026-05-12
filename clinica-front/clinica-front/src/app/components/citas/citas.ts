@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'; // 1. Importamos ChangeDetectorRef
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { ApiService } from '../../services/api';
+import { TratamientoService } from '../../services/tratamiento';
+import { filter } from 'rxjs/operators';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -13,6 +15,8 @@ import Swal from 'sweetalert2';
 })
 export class CitasComponent implements OnInit {
   citas: any[] = [];
+  tratamientosDisponibles: any[] = [];
+  
   nuevaCita: any = {
     id: null,
     nombrePaciente: '',
@@ -26,36 +30,70 @@ export class CitasComponent implements OnInit {
   soloLectura: boolean = false;
   editando: boolean = false;
 
-  constructor(private apiService: ApiService, private router: Router) {}
+  constructor(
+    private apiService: ApiService, 
+    private router: Router,
+    private tratamientoService: TratamientoService,
+    private cdr: ChangeDetectorRef // 2. Inyectamos el ChangeDetectorRef
+  ) {
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe(() => {
+      this.verificarModoLectura();
+    });
+  }
 
   ngOnInit(): void {
-    if (this.router.url === '/mis-citas') {
-      this.soloLectura = true;
-    }
+    this.verificarModoLectura(); 
     this.cargarCitas();
+    this.cargarCatalogo();
+  }
+
+  verificarModoLectura(): void {
+    // 3. Usamos .href para capturar TODA la URL absoluta (incluyendo si hay un #)
+    const urlCompleta = window.location.href; 
+
+    // Verificamos si la ruta declarada en tu app.routes.ts está en la URL
+    if (urlCompleta.includes('/mis-citas')) { 
+      this.soloLectura = true;
+    } else {
+      this.soloLectura = false;
+    }
+    
+    // 4. EL MARTILLO: Le decimos a Angular que redibuje el HTML obligatoriamente
+    this.cdr.detectChanges(); 
+  }
+
+  cargarCatalogo(): void {
+    this.tratamientoService.obtenerTratamientos().subscribe({
+      next: (data) => this.tratamientosDisponibles = data,
+      error: (err) => console.error('Error al cargar el catálogo', err)
+    });
   }
 
   cargarCitas(): void {
     this.apiService.obtenerCitas().subscribe({
-      next: (data) => this.citas = data,
+      next: (data) => {
+        // Aseguramos que data sea un arreglo válido aunque el backend envíe null
+        this.citas = data || []; 
+        console.log("Citas cargadas:", this.citas);
+        this.cdr.detectChanges(); // Redibujamos la tabla al llegar los datos
+      },
       error: (err) => console.error('Error al cargar', err)
     });
   }
 
   validarCorreo(correo: string): boolean {
-    // Expresión regular para obligar a que termine en @gmail.com
     const regex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
     return regex.test(correo);
   }
 
   guardar(): void {
-    // 1. Validación de correo estricta
     if (!this.validarCorreo(this.nuevaCita.correo)) {
       Swal.fire('Correo Inválido', 'Solo se permiten correos @gmail.com', 'error');
       return;
     }
 
-    // 2. Validación de Fecha y Hora
     const hoy = new Date();
     hoy.setHours(0, 0, 0, 0);
     const fechaCita = new Date(this.nuevaCita.fecha + 'T00:00:00');
@@ -71,7 +109,6 @@ export class CitasComponent implements OnInit {
     }
 
     if (this.editando) {
-      // Proceso de Actualización
       this.apiService.actualizarCita(this.nuevaCita.id, this.nuevaCita).subscribe({
         next: () => {
           Swal.fire('Actualizado', 'La cita se modificó correctamente', 'success');
@@ -80,7 +117,6 @@ export class CitasComponent implements OnInit {
         error: (err) => Swal.fire('Error', 'No se pudo actualizar la cita', 'error')
       });
     } else {
-      // Proceso de Creación
       this.apiService.agendarCita(this.nuevaCita).subscribe({
         next: () => {
           Swal.fire('Agendado', 'Cita creada con éxito', 'success');
@@ -97,7 +133,8 @@ export class CitasComponent implements OnInit {
   editar(cita: any): void {
     this.editando = true;
     this.soloLectura = false; 
-    this.nuevaCita = { ...cita }; // Clonamos el objeto para el formulario
+    this.nuevaCita = { ...cita }; 
+    this.cdr.detectChanges(); // Redibujar al editar
   }
 
   eliminar(id: number): void {
@@ -107,7 +144,7 @@ export class CitasComponent implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, eliminar'
-    }).then((result) => {
+    }).then((result: any) => {
       if (result.isConfirmed) {
         this.apiService.eliminarCita(id).subscribe({
           next: () => {
@@ -121,6 +158,7 @@ export class CitasComponent implements OnInit {
 
   resetearFormulario(): void {
     this.editando = false;
+    this.verificarModoLectura(); 
     this.nuevaCita = { id: null, nombrePaciente: '', correo: '', tratamiento: '', fecha: '', hora: '', usuario: { id: 1 } };
     this.cargarCitas();
   }

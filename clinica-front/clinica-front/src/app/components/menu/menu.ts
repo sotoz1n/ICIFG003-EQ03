@@ -10,11 +10,17 @@ import { Router } from '@angular/router';
 })
 export class MenuComponent implements OnInit {
   nombreUsuario: string | null = '';
+  // Variable para verificar si es administrador
+  esAdmin: boolean = false; 
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
     this.nombreUsuario = localStorage.getItem('usuarioLogeado');
+    
+    // Verificamos el rol guardado durante el login
+    const rolUsuario = localStorage.getItem('rol');
+    this.esAdmin = (rolUsuario === 'ADMIN' || rolUsuario === 'admin');
   }
 
   irAAgendar() {
@@ -25,7 +31,16 @@ export class MenuComponent implements OnInit {
     this.router.navigate(['/mis-citas']);
   }
 
-  irAConfiguracion() {
-    this.router.navigate(['/configuracion']);
+  irATratamientos() {
+    this.router.navigate(['/tratamientos']);
+  }
+
+  irAResumen() {
+    this.router.navigate(['/resumen-diario']);
+  }
+  
+  cerrarSesion() {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

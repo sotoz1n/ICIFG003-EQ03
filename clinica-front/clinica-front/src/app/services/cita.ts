@@ -10,7 +10,6 @@ export interface Cita {
   tratamiento: String;
   fecha: string;
   hora: string;
-  usuario: { id: number }; // Aquí cumplimos con el @ManyToOne del Backend
 }
 
 @Injectable({

@@ -1,0 +1,46 @@
+<div style="padding: 30px; font-family: 'Segoe UI', sans-serif; background-color: #f4f7f6; min-height: 100vh;">
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+    <h2 style="color: #2c3e50; margin: 0;">📊 Resumen Operativo Diario</h2>
+    <button (click)="irAMenu()" style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+      Volver al Panel
+    </button>
+  </div>
+
+  <div *ngIf="fechas.length > 0; else noCitas">
+    <div *ngFor="let fecha of fechas" style="background: white; border-radius: 12px; padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid #007bff;">
+      <h3 style="color: #007bff; border-bottom: 1px solid #eee; padding-bottom: 10px; margin-top: 0;">
+        📅 Agenda para el día: {{ fecha | date:'fullDate':'':'es' }}
+      </h3>
+
+      <div *ngFor="let tratamiento of getTratamientosPorFecha(fecha)" style="margin-top: 20px;">
+        <h4 style="background: #e9ecef; padding: 8px 15px; border-radius: 5px; color: #495057; display: inline-block;">
+          🩺 {{ tratamiento }} ({{ citasAgrupadas[fecha][tratamiento].length }} citas)
+        </h4>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+          <thead>
+            <tr style="text-align: left; color: #888; font-size: 0.85rem; border-bottom: 1px solid #eee;">
+              <th style="padding: 10px;">Hora</th>
+              <th style="padding: 10px;">Paciente</th>
+              <th style="padding: 10px;">Contacto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cita of citasAgrupadas[fecha][tratamiento]" style="border-bottom: 1px solid #f9f9f9;">
+              <td style="padding: 10px; font-weight: bold; color: #2c3e50; width: 100px;">{{ cita.hora }}</td>
+              <td style="padding: 10px;">{{ cita.nombrePaciente }}</td>
+              <td style="padding: 10px; color: #666; font-size: 0.9rem;">{{ cita.correo }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noCitas>
+    <div style="text-align: center; padding: 50px; background: white; border-radius: 12px; color: #999;">
+      <p>No hay citas programadas en el sistema para generar el resumen.</p>
+    </div>
+  </ng-template>
+</div>

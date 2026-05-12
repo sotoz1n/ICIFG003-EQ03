@@ -4,7 +4,7 @@
     {{ editando ? 'Modificar Cita' : (soloLectura ? 'Listado de Citas Programadas' : 'Gestión de Agendamiento') }}
   </h2>
 
-  <div style="display: flex; justify-content: center; width: 100%;">
+  <div style="display: flex; justify-content: center; width: 100%; flex-wrap: wrap; gap: 20px;">
     
     <div *ngIf="!soloLectura || editando" style="width: 100%; max-width: 500px; background: #ffffff; padding: 30px; border-radius: 15px; border: 1px solid #e0e0e0; box-shadow: 0 10px 25px rgba(0,0,0,0.05);">
       <h3 style="margin-top: 0; color: #007bff; margin-bottom: 20px; text-align: center;">
@@ -20,12 +20,14 @@
           <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #444;">Correo Electrónico:</label>
           <input type="email" [(ngModel)]="nuevaCita.correo" name="correo" placeholder="usuario@gmail.com" required style="width: 100%; padding: 12px; border: 1px solid #ced4da; border-radius: 8px; box-sizing: border-box;">
         </div>
+        
         <div style="margin-bottom: 15px;">
           <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #444;">Tratamiento:</label>
-          <select [(ngModel)]="nuevaCita.tratamiento" name="tratamiento" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ced4da; background-color: white; width: 100%;">
-            <option value="limpieza dental">Limpieza dental</option>
-            <option value="ortodoncia">Ortodoncia</option>
-            <option value="blanquiamiento">Blanquiamiento</option>
+          <select [(ngModel)]="nuevaCita.tratamiento" name="tratamiento" required style="width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ced4da; background-color: white;">
+            <option value="" disabled selected>Seleccione un tratamiento</option>
+            <option *ngFor="let t of tratamientosDisponibles" [value]="t.nombre">
+              {{ t.nombre }} - ${{ t.precio }} ({{ t.duracionMinutos }} min)
+            </option>
           </select>
         </div>
         <div style="display: flex; gap: 15px; margin-bottom: 25px;">
@@ -76,7 +78,7 @@
         </tbody>
       </table>
       <ng-template #sinCitas>
-        <p style="text-align: center; padding: 40px; color: #999;">No hay citas registradas.</p>
+        <p style="text-align: center; padding: 40px; color: #999; font-size: 1.2rem;">No hay citas registradas.</p>
       </ng-template>
     </div>
 

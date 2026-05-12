@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api';
-import Swal from 'sweetalert2'; // Importamos SweetAlert2
+import Swal from 'sweetalert2'; 
 
 @Component({
   selector: 'app-registro',
@@ -13,6 +13,7 @@ import Swal from 'sweetalert2'; // Importamos SweetAlert2
   styleUrls: ['./registro.css']
 })
 export class RegistroComponent {
+  // Volvemos a usar estrictamente username y password
   usuario = { username: '', password: '' };
   esLogin = true;
 
@@ -26,7 +27,8 @@ export class RegistroComponent {
     if (this.esLogin) {
       this.apiService.loginUsuario(this.usuario).subscribe({
         next: (res) => {
-          localStorage.setItem('usuarioLogeado', res.username);
+          // Guardamos el username directamente
+          localStorage.setItem('usuarioLogeado', res.username); 
           
           if (res.rol) {
             localStorage.setItem('rol', res.rol); 
@@ -64,13 +66,14 @@ export class RegistroComponent {
           }).then(() => {
             this.esLogin = true;
             this.usuario.password = '';
+            this.usuario.username = '';
           });
         },
         error: (err) => {
           console.error(err);
           Swal.fire({
-            title: 'Error de Conexión',
-            text: 'No se pudo conectar con el servidor. Revisa si Spring Boot está corriendo.',
+            title: 'Error',
+            text: 'No se pudo conectar con el servidor o el usuario ya existe.',
             icon: 'warning',
             confirmButtonText: 'Aceptar'
           });

@@ -1,12 +1,19 @@
 <div style="padding: 40px; font-family: Arial, sans-serif; text-align: center; background-color: #f8f9fa; min-height: 90vh;">
-  <h1 style="color: #333;">Panel Principal</h1>
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <div></div> <button (click)="cerrarSesion()" style="background: #dc3545; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer;">
+      Cerrar Sesión
+    </button>
+  </div>
+
+  <h1 style="color: #333;">Bienvenido, {{ nombreUsuario }}</h1>
   <p style="color: #666; margin-bottom: 40px;">Selecciona una opción para gestionar la clínica</p>
 
   <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
     
     <div (click)="irAAgendar()" style="background: white; border: 1px solid #007bff; border-radius: 12px; padding: 30px; width: 280px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
       <h3 style="color: #007bff;">Agendar Cita</h3>
-      <p style="font-size: 0.9em; color: #555;">Ingresar nuevos pacientes al sistema (Modelo de Negocio).</p>
+      <p style="font-size: 0.9em; color: #555;">Ingresar nuevos pacientes al sistema.</p>
     </div>
 
     <div (click)="irAMisCitas()" style="background: white; border: 1px solid #28a745; border-radius: 12px; padding: 30px; width: 280px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
@@ -14,9 +21,14 @@
       <p style="font-size: 0.9em; color: #555;">Ver listado completo y gestión de estados.</p>
     </div>
 
-    <div (click)="irAConfiguracion()" style="background: white; border: 1px solid #ffc107; border-radius: 12px; padding: 30px; width: 280px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
-      <h3 style="color: #ffc107;">Configuración</h3>
-      <p style="font-size: 0.9em; color: #555;">Ajustes de perfil y parámetros del sistema.</p>
+    <div *ngIf="esAdmin" (click)="irATratamientos()" style="background: white; border: 1px solid #6f42c1; border-radius: 12px; padding: 30px; width: 280px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1); transition: transform 0.2s;">
+      <h3 style="color: #6f42c1;">Catálogo de Tratamientos</h3>
+      <p style="font-size: 0.9em; color: #555;">Administrar servicios, precios y duraciones.</p>
+    </div>
+    
+    <div *ngIf="esAdmin" (click)="irAResumen()" style="background: white; border: 1px solid #17a2b8; border-radius: 12px; padding: 30px; width: 280px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+      <h3 style="color: #17a2b8;">Resumen Diario</h3>
+      <p style="font-size: 0.9em; color: #555;">Vista organizada por fecha y tipo de tratamiento.</p>
     </div>
 
   </div>
