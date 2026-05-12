@@ -34,7 +34,7 @@ export class CitasComponent implements OnInit {
     private apiService: ApiService, 
     private router: Router,
     private tratamientoService: TratamientoService,
-    private cdr: ChangeDetectorRef // 2. Inyectamos el ChangeDetectorRef
+    private cdr: ChangeDetectorRef
   ) {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
@@ -50,17 +50,14 @@ export class CitasComponent implements OnInit {
   }
 
   verificarModoLectura(): void {
-    // 3. Usamos .href para capturar TODA la URL absoluta (incluyendo si hay un #)
     const urlCompleta = window.location.href; 
 
-    // Verificamos si la ruta declarada en tu app.routes.ts está en la URL
     if (urlCompleta.includes('/mis-citas')) { 
       this.soloLectura = true;
     } else {
       this.soloLectura = false;
     }
     
-    // 4. EL MARTILLO: Le decimos a Angular que redibuje el HTML obligatoriamente
     this.cdr.detectChanges(); 
   }
 
@@ -74,10 +71,9 @@ export class CitasComponent implements OnInit {
   cargarCitas(): void {
     this.apiService.obtenerCitas().subscribe({
       next: (data) => {
-        // Aseguramos que data sea un arreglo válido aunque el backend envíe null
         this.citas = data || []; 
         console.log("Citas cargadas:", this.citas);
-        this.cdr.detectChanges(); // Redibujamos la tabla al llegar los datos
+        this.cdr.detectChanges();
       },
       error: (err) => console.error('Error al cargar', err)
     });
@@ -134,7 +130,7 @@ export class CitasComponent implements OnInit {
     this.editando = true;
     this.soloLectura = false; 
     this.nuevaCita = { ...cita }; 
-    this.cdr.detectChanges(); // Redibujar al editar
+    this.cdr.detectChanges();
   }
 
   eliminar(id: number): void {
