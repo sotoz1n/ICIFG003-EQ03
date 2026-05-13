@@ -6,6 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TratamientoRepository extends JpaRepository<Tratamiento, Long> {
-
-    boolean existsByNombre(String nombre);
 }

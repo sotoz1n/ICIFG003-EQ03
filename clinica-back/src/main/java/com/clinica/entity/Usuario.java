@@ -23,6 +23,6 @@ public class Usuario {
     private String rol;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonIgnore 
+    @JsonIgnore
     private List<Cita> citas;
 }
