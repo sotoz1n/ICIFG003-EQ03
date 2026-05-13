@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-  private url = 'http://localhost:8080/api/citas'; // Ajusta según tu backend
+  private url = 'http://localhost:8080/api/citas';
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +18,6 @@ export class ApiService {
     return this.http.post<any>(this.url, cita);
   }
 
-  // ESTE ES EL MÉTODO QUE FALTABA
   actualizarCita(id: number, cita: any): Observable<any> {
     return this.http.put<any>(`${this.url}/${id}`, cita);
   }
@@ -27,7 +26,7 @@ export class ApiService {
     return this.http.delete<any>(`${this.url}/${id}`);
   }
 
-  // Métodos de autenticación (si los usas aquí)
+
   loginUsuario(datos: any): Observable<any> {
     return this.http.post<any>('http://localhost:8080/api/usuarios/login', datos);
   }

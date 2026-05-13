@@ -6,19 +6,23 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TratamientoService {
-  private url = 'http://localhost:8080/api/tratamientos';
+  private apiUrl = 'http://localhost:8080/api/tratamientos';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-  obtenerTratamientos(): Observable<any> {
-    return this.http.get(this.url);
+  obtenerTratamientos(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 
-  guardarTratamiento(tratamiento: any): Observable<any> {
-    return this.http.post(this.url, tratamiento);
+  crearTratamiento(tratamiento: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, tratamiento);
+  }
+
+  actualizarTratamiento(id: number, tratamiento: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/${id}`, tratamiento);
   }
 
   eliminarTratamiento(id: number): Observable<any> {
-    return this.http.delete(`${this.url}/${id}`);
+    return this.http.delete<any>(`${this.apiUrl}/${id}`);
   }
 }

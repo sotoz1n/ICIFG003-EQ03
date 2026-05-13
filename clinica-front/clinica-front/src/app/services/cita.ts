@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-// Definimos una interfaz sencilla para representar la Cita
 export interface Cita {
   id?: number;
   nombrePaciente: String;

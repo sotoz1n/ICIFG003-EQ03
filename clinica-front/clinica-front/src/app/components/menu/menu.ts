@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class MenuComponent implements OnInit {
   nombreUsuario: string | null = '';
+  // Variable para verificar si es administrador
   esAdmin: boolean = false; 
 
   constructor(private router: Router) {}
@@ -17,6 +18,7 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
     this.nombreUsuario = localStorage.getItem('usuarioLogeado');
     
+    // Verificamos el rol guardado durante el login
     const rolUsuario = localStorage.getItem('rol');
     this.esAdmin = (rolUsuario === 'ADMIN' || rolUsuario === 'admin');
   }
